@@ -1,0 +1,228 @@
+/* ============================================
+   GoApple POS - Header Styles (Apple Minimal)
+   ============================================ */
+
+.app-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #f3f4f6;
+    box-shadow: none;
+    padding: 0 !important;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.app-header .navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: 0 2.5rem;
+    gap: 3rem;
+}
+
+/* Brand */
+.app-header .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+    margin: 0;
+    flex-shrink: 0;
+    transition: opacity var(--duration-base) var(--easing);
+}
+
+.app-header .navbar-brand:hover {
+    opacity: 0.7;
+}
+
+.app-header .logo-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.app-header .logo-box i {
+    color: #ffffff !important;
+    font-size: 1.05rem;
+    line-height: 1;
+}
+
+.app-header .brand-text {
+    color: #111827;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.2px;
+}
+
+/* Menu */
+.app-header .navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex: 1;
+}
+
+.app-header .navbar-menu .nav-link,
+.app-header .nav-link {
+    color: #111827 !important;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: -0.1px;
+    transition: color var(--duration-base) var(--easing);
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+}
+
+.app-header .navbar-menu .nav-link:hover {
+    color: #0071e3;
+    border-bottom-color: #0071e3;
+}
+
+/* Layout */
+.app-header .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-shrink: 0;
+}
+
+.app-header .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+/* Search */
+.app-header .header-search {
+    display: flex;
+    align-items: center;
+    width: 280px;
+    position: relative;
+}
+
+.app-header .header-search .input-group {
+    position: relative;
+    width: 100%;
+}
+
+.app-header .header-search .form-control {
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem 0.5rem 2.2rem;
+    font-size: 0.85rem;
+    color: #374151;
+    transition: all var(--duration-base) var(--easing);
+    font-weight: 400;
+    height: 36px;
+}
+
+.app-header .header-search .form-control::placeholder {
+    color: #a1a5ab;
+}
+
+.app-header .header-search .form-control:focus {
+    border-color: #0071e3;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.08);
+    outline: none;
+}
+
+.app-header .header-search .input-group-text {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 0.95rem;
+}
+
+/* Buttons */
+.app-header .btn-action {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    padding: 0;
+    border-radius: 8px;
+    background: transparent !important;
+    border: none !important;
+    color: #111827 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--duration-base) var(--easing);
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.app-header .btn-action i {
+    color: #111827 !important;
+    opacity: 1;
+}
+
+.app-header .btn-action:hover {
+    background: #f3f4f6 !important;
+    color: #0071e3 !important;
+}
+
+.app-header .btn-action:active {
+    background: #e5e7eb !important;
+}
+
+.app-header .hamburger-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    padding: 0;
+    border-radius: 8px;
+    background: transparent !important;
+    border: none !important;
+    color: #111827 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--duration-base) var(--easing);
+    font-size: 1.2rem;
+}
+
+.app-header .hamburger-btn i {
+    color: #111827 !important;
+}
+
+/* Dropdowns */
+.app-header .dropdown-menu {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    margin-top: 0.5rem;
+    padding: 0.5rem 0;
+    background: #ffffff;
+    animation: slideDown var(--duration-base) var(--easing);
+    min-width: 240px;
+}
+
+.app-header .dropdown-menu .dropdown-item {
+    color: #111827;
+}
+
+.app-header .dropdown-menu .dropdown-item i {
+    color: #111827;
+}

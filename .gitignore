@@ -1,0 +1,35 @@
+# Archivos de logs
+#logs/*.log
+
+# Archivos de configuración local
+#config/database.php
+
+# Uploads
+#uploads/*
+#!uploads/.htaccess
+
+# Archivos del sistema
+#.DS_Store
+#Thumbs.db
+
+# IDEs
+#.vscode/
+#.idea/
+#*.swp
+#*.swo
+
+# Composer
+#vendor/
+#composer.lock
+
+# Archivos temporales
+#*.tmp
+#*.bak
+#*~
+
+/vendor/
+/node_modules/
+/.env
+*.log
+.DS_Store
+Thumbs.db

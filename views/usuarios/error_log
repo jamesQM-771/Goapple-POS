@@ -1,0 +1,6 @@
+[22-Feb-2026 17:11:17 America/Bogota] PHP Warning:  Undefined array key "telefono" in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/usuarios/ver.php on line 47
+[22-Feb-2026 17:11:17 America/Bogota] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/usuarios/ver.php on line 47
+[22-Feb-2026 17:11:17 America/Bogota] PHP Warning:  Undefined array key "estado" in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/usuarios/ver.php on line 49
+[22-Feb-2026 17:11:17 America/Bogota] PHP Deprecated:  ucfirst(): Passing null to parameter #1 ($string) of type string is deprecated in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/usuarios/ver.php on line 49
+[22-Feb-2026 17:11:17 America/Bogota] PHP Warning:  Undefined array key "fecha_creacion" in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/usuarios/ver.php on line 50
+[22-Feb-2026 17:11:17 America/Bogota] PHP Warning:  Undefined array key "ultimo_acceso" in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/usuarios/ver.php on line 51

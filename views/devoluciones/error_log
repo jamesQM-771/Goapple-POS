@@ -1,0 +1,8 @@
+[21-Feb-2026 17:35:10 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method Venta::obtenerTodas() in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/devoluciones/nueva.php:20
+Stack trace:
+#0 {main}
+  thrown in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/devoluciones/nueva.php on line 20
+[22-Feb-2026 13:52:03 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method Venta::obtenerTodas() in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/devoluciones/nueva.php:20
+Stack trace:
+#0 {main}
+  thrown in /home4/giorgiju/public_html/goapple.webexperiencess.com/views/devoluciones/nueva.php on line 20

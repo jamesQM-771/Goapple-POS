@@ -1,0 +1,12 @@
+# Permitir acceso a archivos de imagen
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|JPG|JPEG|PNG|GIF|WEBP)$">
+    Allow from all
+</FilesMatch>
+
+# Bloquear acceso a archivos PHP y otros
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps|pht|phar|inc|pl|py|jsp|asp|sh|cgi)$">
+    Deny from all
+</FilesMatch>
+
+# Desactivar ejecución de scripts
+AddType text/plain .js .css .html .htm
