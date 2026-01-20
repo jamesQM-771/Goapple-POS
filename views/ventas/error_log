@@ -1,0 +1,1 @@
+[20-Feb-2026 17:19:22 America/Bogota] Error al crear venta: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vendedor_id' in 'field list'

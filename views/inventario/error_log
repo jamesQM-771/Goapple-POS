@@ -1,0 +1,12 @@
+[17-Feb-2026 22:46:11 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number in /home4/giorgiju/public_html/goapple.webexperiencess.com/models/iPhone.php:59
+Stack trace:
+#0 /home4/giorgiju/public_html/goapple.webexperiencess.com/models/iPhone.php(59): PDOStatement->execute()
+#1 /home4/giorgiju/public_html/goapple.webexperiencess.com/views/inventario/lista.php(15): iPhone->obtenerTodos(Array)
+#2 {main}
+  thrown in /home4/giorgiju/public_html/goapple.webexperiencess.com/models/iPhone.php on line 59
+[17-Feb-2026 22:46:23 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number in /home4/giorgiju/public_html/goapple.webexperiencess.com/models/iPhone.php:59
+Stack trace:
+#0 /home4/giorgiju/public_html/goapple.webexperiencess.com/models/iPhone.php(59): PDOStatement->execute()
+#1 /home4/giorgiju/public_html/goapple.webexperiencess.com/views/inventario/lista.php(15): iPhone->obtenerTodos(Array)
+#2 {main}
+  thrown in /home4/giorgiju/public_html/goapple.webexperiencess.com/models/iPhone.php on line 59

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Fotos API</title>
+</head>
+<body>
+    <h1>Test de Upload de Fotos</h1>
+    
+    <form id="testForm" enctype="multipart/form-data">
+        <h2>Test Upload Venta</h2>
+        
+        <label>Venta ID:</label>
+        <input type="number" name="venta_id" value="1" required>
+        
+        <label>iPhone ID:</label>
+        <input type="number" name="iphone_id" value="">
+        
+        <label>Descripción:</label>
+        <input type="text" name="descripcion" value="Test foto">
+        
+        <label>Archivo:</label>
+        <input type="file" name="archivo" accept="image/*" required>
+        
+        <button type="button" onclick="enviarFoto()">Enviar Foto</button>
+    </form>
+    
+    <div id="resultado"></div>
+    
+    <script>
+    function enviarFoto() {
+        const formData = new FormData(document.getElementById('testForm'));
+        formData.append('accion', 'upload_venta');
+        
+        console.log('Enviando foto...');
+        console.log('FormData:', {
+            venta_id: formData.get('venta_id'),
+            iphone_id: formData.get('iphone_id'),
+            descripcion: formData.get('descripcion'),
+            archivo: formData.get('archivo')
+        });
+        
+        fetch('./controllers/fotos-api.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(r => r.json())
+        .then(data => {
+            console.log('Respuesta:', data);
+            document.getElementById('resultado').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        })
+        .catch(e => {
+            console.error('Error:', e);
+            document.getElementById('resultado').innerHTML = 'Error: ' + e.message;
+        });
+    }
+    </script>
+</body>
+</html>
