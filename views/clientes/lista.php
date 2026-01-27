@@ -185,9 +185,8 @@ include __DIR__ . '/../layouts/header.php';
                                        class="btn btn-warning" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button class="btn btn-danger btn-eliminar" 
-                                            data-id="<?php echo $cliente['id']; ?>"
-                                            data-nombre="<?php echo htmlspecialchars($cliente['nombre']); ?>"
+                                    <button class="btn btn-danger" 
+                                            onclick="eliminarCliente(<?php echo $cliente['id']; ?>, '<?php echo htmlspecialchars(addslashes($cliente['nombre'])); ?>')"
                                             title="Eliminar">
                                         <i class="bi bi-trash"></i>
                                     </button>
@@ -203,63 +202,22 @@ include __DIR__ . '/../layouts/header.php';
 </div>
 
 <script>
-$(document).ready(function() {
-    // Inicializar DataTable
-    $('#tablaClientes').DataTable({
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-        },
-        responsive: true,
-        order: [[0, 'asc']],
-        pageLength: 25,
-        columnDefs: [
-            { orderable: false, targets: -1 }
-        ]
+function eliminarCliente(id, nombre) {
+    confirmarEliminacion('¿Eliminar al cliente ' + nombre + '?').then((result) => {
+        if (result.isConfirmed) {
+            fetch('<?php echo BASE_URL; ?>/controllers/api.php?module=clientes&action=delete&id=' + id)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        mostrarExito(data.message || 'Cliente eliminado');
+                        setTimeout(() => location.reload(), 800);
+                    } else {
+                        mostrarError(data.message || 'No se pudo eliminar');
+                    }
+                });
+        }
     });
-
-    // Eliminar cliente
-    $('.btn-eliminar').click(function() {
-        const id = $(this).data('id');
-        const nombre = $(this).data('nombre');
-        
-        Swal.fire({
-            title: '¿Eliminar cliente?',
-            text: `¿Estás seguro de eliminar a ${nombre}? Esta acción no se puede deshacer.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                mostrarLoading('Eliminando cliente...');
-                
-                fetch(`../../controllers/api.php?module=clientes&action=delete&id=${id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        ocultarLoading();
-                        if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Eliminado!',
-                                text: data.message,
-                                timer: 2000
-                            }).then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            mostrarError(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        ocultarLoading();
-                        mostrarError('Error al eliminar: ' + error.message);
-                    });
-            }
-        });
-    });
-});
+}
 </script>
 
 <?php include __DIR__ . '/../layouts/footer.php'; ?>
