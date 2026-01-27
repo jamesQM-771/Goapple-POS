@@ -44,5 +44,19 @@
             });
         });
     </script>
+
+    <!-- Modal de Loading -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-3 text-white fw-bold">Procesando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

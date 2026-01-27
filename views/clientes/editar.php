@@ -88,15 +88,15 @@ include __DIR__ . '/../layouts/header.php';
             <form method="POST" class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" value="<?php echo htmlspecialchars($cliente['nombre']); ?>" required>
+                    <input type="text" class="form-control" name="nombre" value="<?php echo htmlspecialchars($cliente['nombre'] ?? ''); ?>" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Cédula</label>
-                    <input type="text" class="form-control" name="cedula" value="<?php echo htmlspecialchars($cliente['cedula']); ?>" required>
+                    <input type="text" class="form-control" name="cedula" value="<?php echo htmlspecialchars($cliente['cedula'] ?? ''); ?>" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" name="telefono" value="<?php echo htmlspecialchars($cliente['telefono']); ?>" required>
+                    <input type="text" class="form-control" name="telefono" value="<?php echo htmlspecialchars($cliente['telefono'] ?? ''); ?>" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Email</label>
@@ -128,7 +128,9 @@ include __DIR__ . '/../layouts/header.php';
                 </div>
                 <div class="col-12">
                     <label class="form-label">Notas</label>
-                    <textarea class="form-control" name="notas" rows="3"><?php echo htmlspecialchars($cliente['notas'] ?? ''); ?></textarea>
+                    <textarea class="form-control" name="notas" rows="3">
+                    <?php echo htmlspecialchars((string)($cliente['notas'] ?? '')); ?>
+                    </textarea>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">
