@@ -162,13 +162,53 @@ class Venta {
                 $stmt_detalle->bindParam(':subtotal', $producto['subtotal']);
                 $stmt_detalle->execute();
 
-                // Actualizar estado del iPhone (lo hace el trigger, pero podemos hacerlo manualmente también)
+                // Actualizar estado del iPhone
                 $nuevo_estado = $datos['tipo_venta'] == 'contado' ? 'vendido' : 'en_credito';
                 $query_update = "UPDATE iphones SET estado = :estado, fecha_venta = NOW() WHERE id = :id";
                 $stmt_update = $this->conn->prepare($query_update);
                 $stmt_update->bindParam(':estado', $nuevo_estado);
                 $stmt_update->bindParam(':id', $producto['iphone_id']);
                 $stmt_update->execute();
+            }
+
+            // Si es venta a crédito, crear el registro de crédito
+            if ($datos['tipo_venta'] === 'credito') {
+                $numero_credito = $this->generarNumeroCredito();
+                $cuota_inicial = floatval($datos['cuota_inicial'] ?? 0);
+                $monto_financiado = floatval($datos['total']) - $cuota_inicial;
+                $tasa_interes = floatval($datos['tasa_interes'] ?? TASA_INTERES_DEFAULT);
+                $numero_cuotas = intval($datos['numero_cuotas'] ?? 12);
+                
+                // Calcular valor de cuota
+                $tasa_mensual = $tasa_interes / 100;
+                if ($tasa_mensual > 0 && $monto_financiado > 0 && $numero_cuotas > 0) {
+                    $valor_cuota = ($monto_financiado * $tasa_mensual * pow(1 + $tasa_mensual, $numero_cuotas)) / (pow(1 + $tasa_mensual, $numero_cuotas) - 1);
+                    $total_intereses = ($valor_cuota * $numero_cuotas) - $monto_financiado;
+                } else {
+                    $valor_cuota = $monto_financiado / $numero_cuotas;
+                    $total_intereses = 0;
+                }
+                
+                $fecha_primer_cuota = date('Y-m-d', strtotime('+1 month'));
+                
+                $query_credito = "INSERT INTO creditos 
+                    (numero_credito, venta_id, cliente_id, monto_total, cuota_inicial, monto_financiado, tasa_interes, numero_cuotas, valor_cuota, total_intereses, saldo_pendiente, fecha_inicio, fecha_primer_cuota, estado) 
+                    VALUES (:numero_credito, :venta_id, :cliente_id, :monto_total, :cuota_inicial, :monto_financiado, :tasa_interes, :numero_cuotas, :valor_cuota, :total_intereses, :saldo_pendiente, CURDATE(), :fecha_primer_cuota, 'activo')";
+                
+                $stmt_credito = $this->conn->prepare($query_credito);
+                $stmt_credito->bindParam(':numero_credito', $numero_credito);
+                $stmt_credito->bindParam(':venta_id', $venta_id);
+                $stmt_credito->bindParam(':cliente_id', $datos['cliente_id']);
+                $stmt_credito->bindParam(':monto_total', $datos['total']);
+                $stmt_credito->bindParam(':cuota_inicial', $cuota_inicial);
+                $stmt_credito->bindParam(':monto_financiado', $monto_financiado);
+                $stmt_credito->bindParam(':tasa_interes', $tasa_interes);
+                $stmt_credito->bindParam(':numero_cuotas', $numero_cuotas);
+                $stmt_credito->bindParam(':valor_cuota', $valor_cuota);
+                $stmt_credito->bindParam(':total_intereses', $total_intereses);
+                $stmt_credito->bindParam(':saldo_pendiente', $monto_financiado);
+                $stmt_credito->bindParam(':fecha_primer_cuota', $fecha_primer_cuota);
+                $stmt_credito->execute();
             }
 
             $this->conn->commit();
@@ -215,6 +255,24 @@ class Venta {
         }
 
         return 'VT' . str_pad($numero, 8, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Generar número de crédito
+     */
+    private function generarNumeroCredito() {
+        $query = "SELECT numero_credito FROM creditos ORDER BY id DESC LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $ultimo = $stmt->fetch();
+            $numero = intval(substr($ultimo['numero_credito'], 4)) + 1;
+        } else {
+            $numero = 1;
+        }
+
+        return 'CRE-' . str_pad($numero, 6, '0', STR_PAD_LEFT);
     }
 
     /**
