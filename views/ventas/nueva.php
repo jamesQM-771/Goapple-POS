@@ -8,7 +8,6 @@ require_once __DIR__ . '/../../models/Venta.php';
 require_once __DIR__ . '/../../models/iPhone.php';
 require_once __DIR__ . '/../../models/Cliente.php';
 require_once __DIR__ . '/../../models/Credito.php';
-require_once __DIR__ . '/../../models/Foto.php';
 
 $page_title = 'Nueva Venta - ' . APP_NAME;
 
@@ -16,7 +15,6 @@ $iphoneModel = new iPhone();
 $clienteModel = new Cliente();
 $ventaModel = new Venta();
 $creditoModel = new Credito();
-$fotoModel = new Foto();
 
 $iphones = $iphoneModel->obtenerDisponibles();
 $clientes = $clienteModel->obtenerTodos();
@@ -248,12 +246,14 @@ include __DIR__ . '/../layouts/header.php';
                     </div>
                 </div>
 
-                <!-- Fotos de la Venta -->
+                <!-- Fotos de la Venta (Opcional) -->
                 <div class="mt-4">
                     <?php 
-                    $id_zona = 'venta';
-                    $tipo_fotos = 'de la Venta';
-                    include __DIR__ . '/../components/fotos-upload.php'; 
+                    if (class_exists('Foto')) {
+                        $id_zona = 'venta';
+                        $tipo_fotos = 'de la Venta';
+                        include __DIR__ . '/../components/fotos-upload.php'; 
+                    }
                     ?>
                 </div>
             </div>

@@ -57,7 +57,18 @@ include __DIR__ . '/../layouts/header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($creditos as $cr): ?>
+                    <?php if (empty($creditos)): ?>
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                                    <p class="mt-2 mb-0">No hay créditos registrados</p>
+                                    <small>Los créditos se crean al realizar ventas a crédito</small>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($creditos as $cr): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($cr['numero_credito']); ?></td>
                             <td><?php echo htmlspecialchars($cr['cliente_nombre']); ?></td>
@@ -77,7 +88,8 @@ include __DIR__ . '/../layouts/header.php';
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
