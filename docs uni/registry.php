@@ -1,68 +1,29 @@
 <?php
-declare(strict_types=1);
 
-/**
- * Registry simple en memoria para demostracion de naming system.
- * Permite bind (registrar/actualizar) y lookup (buscar).
- */
-final class Registry
-{
-    /** @var array<string, array{ip:string, puerto:int, status?:string, actualizado_en:string}> */
-    private static array $services = [];
+class Registry {
+    private static $servicios = [];
 
     /**
-     * Registra o actualiza la referencia de un servicio.
-     *
-     * @param string $serviceName Nombre logico del servicio.
-     * @param array{ip:string, puerto:int, status?:string} $reference
-     * @return array{resultado:string, mensaje:string}
+     * Método BIND (Vincular/Registrar con Validación)
      */
-    public static function bind(string $serviceName, array $reference): array
-    {
-        if ($serviceName === '') {
-            throw new InvalidArgumentException('El nombre del servicio no puede ser vacio.');
-        }
-        if (empty($reference['ip']) || empty($reference['puerto'])) {
-            throw new InvalidArgumentException('La referencia debe incluir ip y puerto.');
+    public static function bind($nombreServicio, $direccionRed) {
+        
+        // Validación de disponibilidad y pre-existencia
+        if (isset(self::$servicios[$nombreServicio])) {
+            // Documentamos en log que el servicio se está actualizando
+            error_log("Aviso: El servicio '{$nombreServicio}' ya existía. Actualizando la IP/Puerto para garantizar la interoperabilidad.");
+        } else {
+            error_log("Aviso: Registrando nuevo servicio '{$nombreServicio}' en el Registry.");
         }
 
-        $exists = array_key_exists($serviceName, self::$services);
-        self::$services[$serviceName] = [
-            'ip' => (string) $reference['ip'],
-            'puerto' => (int) $reference['puerto'],
-            'status' => $reference['status'] ?? 'ACTIVO',
-            'actualizado_en' => date('Y-m-d H:i:s'),
-        ];
-
-        return [
-            'resultado' => $exists ? 'updated' : 'created',
-            'mensaje' => $exists
-                ? "Servicio '{$serviceName}' actualizado en Registry."
-                : "Servicio '{$serviceName}' registrado en Registry.",
-        ];
+        // Siempre guardamos (o sobrescribimos) el servicio para tener la referencia más actual.
+        self::$servicios[$nombreServicio] = $direccionRed;
     }
 
-    /**
-     * Busca la referencia de un servicio por nombre logico.
-     *
-     * @return array{ip:string, puerto:int, status?:string, actualizado_en:string}
-     */
-    public static function lookup(string $serviceName): array
-    {
-        if (!array_key_exists($serviceName, self::$services)) {
-            throw new RuntimeException("Servicio '{$serviceName}' no encontrado en Registry.");
+    public static function lookup($nombreServicio) {
+        if (isset(self::$servicios[$nombreServicio])) {
+            return self::$servicios[$nombreServicio];
         }
-
-        return self::$services[$serviceName];
-    }
-
-    /**
-     * Solo para reporte/evidencia.
-     *
-     * @return array<string, array{ip:string, puerto:int, status?:string, actualizado_en:string}>
-     */
-    public static function all(): array
-    {
-        return self::$services;
+        throw new Exception("El servicio '{$nombreServicio}' no se encuentra en el Registry.");
     }
 }
