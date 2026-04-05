@@ -1,43 +1,51 @@
 <?php
-declare(strict_types=1);
+// Requerimos el Registry para poder anunciarnos
+require_once 'registry.php';
 
-require_once __DIR__ . '/registry.php';
+class ServicioPagosRemoto {
+    
+    private $mi_ip;
+    private $mi_puerto;
 
-final class ServicioPagosRemoto
-{
-    private string $ip;
-    private int $puerto;
-
-    public function __construct(string $ip, int $puerto)
-    {
-        $this->ip = $ip;
-        $this->puerto = $puerto;
+    public function __construct($ip, $puerto) {
+        // Inicializamos los datos del servidor
+        $this->mi_ip = $ip;
+        $this->mi_puerto = $puerto;
+        
+        // ¡Secreto de la Actividad 2!
+        // Al instanciarse, el objeto se ANUNCIA automáticamente al Registry
+        $this->anunciarseEnRed();
     }
 
     /**
-     * Actividad 2 (Guia 6): auto-registro del servicio al iniciar.
+     * Lógica de Auto-Registro en el Directorio
      */
-    public function iniciar(): void
-    {
-        $resultado = Registry::bind('ServicioPagos', [
-            'ip' => $this->ip,
-            'puerto' => $this->puerto,
-            'status' => 'ACTIVO',
-        ]);
-
-        echo "[SERVIDOR] {$resultado['mensaje']}" . PHP_EOL;
+    private function anunciarseEnRed() {
+        $datosDeConexion = [
+            'ip' => $this->mi_ip,
+            'puerto' => $this->mi_puerto,
+            'status' => 'Conectado y Disponible'
+        ];
+        
+        // Invocamos al Registry publicando nuestro nombre y nuestros datos de acceso
+        Registry::bind('ServicioPagos', $datosDeConexion);
     }
+    
+    // ... Resto de lógica de pagos ...
 }
 
-// ---------------------------
-// Demo para evidencia (Guia 6)
-// ---------------------------
-$servicio = new ServicioPagosRemoto('10.0.0.155', 8080);
-$servicio->iniciar();
+// ==========================================
+// PRUEBA DEL FLUJO PARA TU REPORTE
+// ==========================================
 
-// Simula reinicio/cambio de IP y actualizacion de referencia.
-$servicioReiniciado = new ServicioPagosRemoto('10.0.0.180', 8080);
-$servicioReiniciado->iniciar();
+// Cuando el servidor arranque esta línea, el servicio "nace" y se registra automático.
+$servidorPagos = new ServicioPagosRemoto('10.0.0.155', 8080);
 
-$referencia = Registry::lookup('ServicioPagos');
-echo "[SERVIDOR] Ruta vigente de ServicioPagos: {$referencia['ip']}:{$referencia['puerto']}" . PHP_EOL;
+// ¡Oh no! El servidor de pagos se reinició, cambió de IP y vuelve a iniciar:
+$servidorPagosReiniciado = new ServicioPagosRemoto('10.0.0.180', 8080);
+// Aquí el Registry detectará que ya existía e imprimirá el Aviso de actualización.
+
+// Otro módulo busca a quién cobrar:
+$referenciaActual = Registry::lookup('ServicioPagos');
+echo "Nueva ruta del servicio de pagos: " . $referenciaActual['ip']; 
+// Imprimirá 10.0.0.180 (garantizando interoperabilidad exitosa)
