@@ -10,8 +10,9 @@ Este bloque documental organiza las evidencias académicas de la materia Arquite
 
 ## Alcance actual
 
-- Guías 1 a 5: documentadas y cargadas.
-- Guías 6 y 7: pendientes de carga documental completa.
+- Guias 1 a 5: documentadas y cargadas.
+- Guia 6: implementada con `registry.php`, `PagosRemotos.php`, `ClienteDinamico.php` y `GUIA_6_RESUMEN.md`.
+- Guia 7: implementada con `Guia7_Callback_DCOM.php`, `GUIA_7_RESUMEN.md` y matriz de trazabilidad.
 
 ## Nota técnica
 

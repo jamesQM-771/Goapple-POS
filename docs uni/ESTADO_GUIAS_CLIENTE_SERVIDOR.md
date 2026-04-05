@@ -9,8 +9,8 @@ Fecha de corte: 2026-04-05
 - Guia 3: Completa (documento resuelto disponible)
 - Guia 4: Completa (documento resuelto disponible)
 - Guia 5: Completa (documento resuelto disponible)
-- Guia 6: Pendiente de documentacion final en repo
-- Guia 7: Pendiente de documentacion final en repo
+- Guia 6: Completa (implementacion y resumen en repo)
+- Guia 7: Completa (implementacion y resumen en repo)
 
 ## Evidencias cargadas
 
@@ -19,15 +19,14 @@ Fecha de corte: 2026-04-05
 - `docs uni/guias-resueltas/Semana 3/...docx`
 - `docs uni/guias-resueltas/Semana 4/...docx`
 - `docs uni/guias-resueltas/Semana 5/...docx`
-- `docs uni/ClienteDinamico.php`
+- `docs uni/registry.php`
 - `docs uni/PagosRemotos.php`
+- `docs uni/ClienteDinamico.php`
+- `docs uni/GUIA_6_RESUMEN.md`
+- `docs uni/Guia7_Callback_DCOM.php`
+- `docs uni/GUIA_7_RESUMEN.md`
 
 ## Aclaracion tecnica importante
 
-La base del proyecto GOAPPLE en este repositorio esta en PHP. Si algun texto historico menciona Java en la Guia 5, debe interpretarse como referencia conceptual de serializacion y no como stack implementado en este repo.
-
-## Pendientes sugeridos
-
-- Crear `GUIA_6_RESUMEN.md` con bind/lookup/registro de servicio.
-- Crear `GUIA_7_RESUMEN.md` con callbacks y comparativo DCOM.
-- Agregar evidencias visuales (capturas/logs) para trazabilidad.
+La base del proyecto GOAPPLE en este repositorio esta en PHP.
+Las implementaciones de guias 6 y 7 fueron desarrolladas en PHP, alineadas al stack real del proyecto.
