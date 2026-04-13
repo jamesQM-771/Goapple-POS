@@ -1,5 +1,5 @@
 <?php
-/* Asignatura: Arquitectura Cliente-Servidor | Comentador: Giorgi Julian Ordoñez | Guía: 6 | Punto de la guía: Actividad 1, 2 y 3 */
+/* Asignatura: Arquitectura Cliente-Servidor | Comentador: james | Guía: 6 | Punto de la guía: Actividad 1, 2 y 3 */
 
 /**
  * Actividad 1: Configuración del Servicio de Directorio (Registry)

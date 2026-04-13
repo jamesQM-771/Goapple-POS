@@ -1,5 +1,5 @@
 <?php
-/* Asignatura: Arquitectura Cliente-Servidor | Comentador: Giorgi Julian Ordoñez | Guía: 4 | Punto de la guía: Actividad 2 y 3 */
+/* Asignatura: Arquitectura Cliente-Servidor | Comentador: james | Guía: 4 | Punto de la guía: Actividad 2 y 3 */
 
 /**
  * Actividad 2: Intercambio de Payload (Lectura/Escritura) del lado del Cliente

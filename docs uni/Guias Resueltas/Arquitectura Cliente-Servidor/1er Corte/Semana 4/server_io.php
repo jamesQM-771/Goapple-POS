@@ -1,5 +1,5 @@
 <?php
-/* Asignatura: Arquitectura Cliente-Servidor | Comentador: Giorgi Julian Ordoñez | Guía: 4 | Punto de la guía: Actividad 1, 2 y 3 */
+/* Asignatura: Arquitectura Cliente-Servidor | Comentador: james | Guía: 4 | Punto de la guía: Actividad 1, 2 y 3 */
 
 $host = '127.0.0.1';
 $port = 9000;
