@@ -1,5 +1,5 @@
 <?php
-/* Asignatura: Arquitectura Cliente-Servidor | Comentador: Giorgi Julian Ordoñez | Guía: 2 | Punto de la guía: Actividad 3 */
+/* Asignatura: Arquitectura Cliente-Servidor | Comentador: james | Guía: 2 | Punto de la guía: Actividad 3 */
 
 /**
  * Actividad 3: Diseño de la Topología Lógica del MVP
