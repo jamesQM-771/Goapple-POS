@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Elemento raíz -->
+  <xs:element name="mensaje">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="mensajes_control" type="ControlTipo"/>
+        <xs:choice>
+          <xs:element name="request" type="RequestTipo"/>
+          <xs:element name="response" type="ResponseTipo"/>
+          <xs:element name="error" type="ErrorTipo"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Tipos complejos -->
+  <xs:complexType name="ControlTipo">
+    <xs:sequence>
+      <xs:element name="id_transaccion" type="xs:string"/>
+      <xs:element name="timestamp" type="xs:dateTime"/>
+      <xs:element name="emisor" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequestTipo">
+    <xs:sequence>
+      <xs:element name="operacion" type="xs:string"/>
+      <xs:element name="datos" type="DatosTipo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResponseTipo">
+    <xs:sequence>
+      <xs:element name="operacion" type="xs:string"/>
+      <xs:element name="estado" type="xs:string"/>
+      <xs:element name="datos" type="DatosTipo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ErrorTipo">
+    <xs:sequence>
+      <xs:element name="estado" type="xs:string"/>
+      <xs:element name="codigo" type="xs:string"/>
+      <xs:element name="mensaje_error" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Tipo Datos Genérico para soportar parámetros y resultados en formato clave-valor -->
+  <xs:complexType name="DatosTipo">
+    <xs:sequence>
+      <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="clave" type="xs:string"/>
+            <xs:element name="valor" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

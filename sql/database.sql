@@ -25,4 +25,4 @@ INSERT INTO iphones (modelo, capacidad, color, condicion, estado_bateria, imei, 
 
 -- iPhone 12 Series
 ('iPhone 12 Pro', '128GB', 'Grafito', 'usado', 82, '351234567890134', 3, 2000000, 2700000, 'disponible'),
-('iPhone 12', '64GB', 'Negro', 'usado', 78, '351234567890135', 1, 1500000, 2000000, 'disponible');
+('iPhone 12', '64GB', 'Negro', 'usado', 78, '351234567890135', 1, 1500000, 2000000, 'disponible');usuarios
