@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+  name="GoAppleService"
+  targetNamespace="http://goapple.local/wsdl"
+  xmlns:tns="http://goapple.local/wsdl"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xsd:schema targetNamespace="http://goapple.local/wsdl">
+      <xsd:element name="ConsultarProductoRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="sku" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ConsultarProductoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="nombre" type="xsd:string"/>
+            <xsd:element name="precio" type="xsd:float"/>
+            <xsd:element name="stock" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <message name="ConsultarProductoInput">
+    <part name="parameters" element="tns:ConsultarProductoRequest"/>
+  </message>
+  <message name="ConsultarProductoOutput">
+    <part name="parameters" element="tns:ConsultarProductoResponse"/>
+  </message>
+
+  <portType name="GoApplePortType">
+    <operation name="ConsultarProducto">
+      <input message="tns:ConsultarProductoInput"/>
+      <output message="tns:ConsultarProductoOutput"/>
+    </operation>
+  </portType>
+
+  <binding name="GoAppleBinding" type="tns:GoApplePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="ConsultarProducto">
+      <soap:operation soapAction="http://goapple.local/ConsultarProducto"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="GoAppleService">
+    <port name="GoApplePort" binding="tns:GoAppleBinding">
+      <soap:address location="http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%209/soap_server.php"/>
+    </port>
+  </service>
+</definitions>
