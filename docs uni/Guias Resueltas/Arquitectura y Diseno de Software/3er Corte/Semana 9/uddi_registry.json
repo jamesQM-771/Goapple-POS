@@ -1,0 +1,10 @@
+{
+  "serviceName": "GoAppleService",
+  "version": "1.0.0",
+  "protocol": "SOAP",
+  "wsdl": "http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%209/soap_server.php?wsdl",
+  "endpoint": "http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%209/soap_server.php",
+  "operations": [
+    "ConsultarProducto"
+  ]
+}
