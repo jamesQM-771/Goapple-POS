@@ -12,6 +12,6 @@ return [
     'DB_CHARSET' => 'utf8mb4',
     
     'APP_DEBUG' => true,
-    'APP_URL' => 'http://goapple.test',
+    'APP_URL' => 'https://goapple.test',
     'APP_TIMEZONE' => 'America/Bogota',
 ];
