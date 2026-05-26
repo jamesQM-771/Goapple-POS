@@ -1,14 +1,15 @@
 <?php
-/* Asignatura: Arquitectura y Diseño de Software | Autor: Giorgi Julian Ordoñez | Guía: 5 */
+require_once __DIR__ . '/../../../../../../../config/database.php';
+
 class ConexionDB {
     private static $instancia = null;
     private $pdo;
 
     private function __construct() {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=goapple_db", "root", "");
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
+            $db = Database::getInstance();
+            $this->pdo = $db->getConnection();
+        } catch(Exception $e) {
             die("Error Fatal Conexión: " . $e->getMessage());
         }
     }
@@ -22,4 +23,3 @@ class ConexionDB {
 
     public function getConnection() { return $this->pdo; }
 }
-?>
