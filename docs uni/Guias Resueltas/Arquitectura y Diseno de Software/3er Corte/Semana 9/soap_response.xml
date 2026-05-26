@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://goapple.local/wsdl">
+  <soap:Body>
+    <tns:ConsultarProductoResponse>
+      <id>1</id>
+      <modelo>iPhone 16 Pro Max</modelo>
+      <capacidad>256GB</capacidad>
+      <color>Titanio Natural</color>
+      <imei>123456789012345</imei>
+      <precio>1599.99</precio>
+      <stock>10</stock>
+      <condicion>Nuevo</condicion>
+      <estado>disponible</estado>
+    </tns:ConsultarProductoResponse>
+  </soap:Body>
+</soap:Envelope>
