@@ -4,10 +4,10 @@
  * Verificar si las tablas y datos existen
  */
 
-require_once __DIR__ . '/config/config.php';
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/models/Usuario.php';
-require_once __DIR__ . '/models/Comision.php';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/Usuario.php';
+require_once __DIR__ . '/../models/Comision.php';
 
 // Si no es admin, no dejar acceso
 if (!estaLogueado()) {

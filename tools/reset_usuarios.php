@@ -4,7 +4,7 @@
  * Usar solo si actualizar_passwords.php no funciona
  */
 
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 echo "=== Creación de Usuario Administrador de Emergencia ===\n\n";
 

@@ -22,10 +22,10 @@ echo "<!DOCTYPE html>
 
 // Test 1: Verificar archivo config.php
 echo "<h2>1. Verificando config.php</h2>";
-if (file_exists(__DIR__ . '/config/config.php')) {
+if (file_exists(__DIR__ . '/../config/config.php')) {
     echo "<div class='ok'>✓ Archivo config.php existe</div>";
     try {
-        require_once __DIR__ . '/config/config.php';
+        require_once __DIR__ . '/../config/config.php';
         echo "<div class='ok'>✓ config.php se cargó correctamente</div>";
         echo "<div class='ok'>✓ BASE_URL = " . (defined('BASE_URL') ? BASE_URL : 'NO DEFINIDO') . "</div>";
     } catch (Throwable $e) {
@@ -40,7 +40,7 @@ echo "<h2>2. Verificando session.php</h2>";
 if (file_exists(__DIR__ . '/config/session.php')) {
     echo "<div class='ok'>✓ Archivo session.php existe</div>";
     try {
-        require_once __DIR__ . '/config/session.php';
+        require_once __DIR__ . '/../config/session.php';
         echo "<div class='ok'>✓ session.php se cargó correctamente</div>";
     } catch (Throwable $e) {
         echo "<div class='err'>✗ Error en session.php: " . htmlspecialchars($e->getMessage()) . "</div>";
@@ -54,7 +54,7 @@ echo "<h2>3. Verificando Modelos</h2>";
 $modelos = ['Usuario', 'Venta', 'Credito', 'IPhone', 'Cliente'];
 
 foreach ($modelos as $modelo) {
-    $archivo = __DIR__ . '/models/' . $modelo . '.php';
+    $archivo = __DIR__ . '/../models/' . $modelo . '.php';
     if (file_exists($archivo)) {
         echo "<div class='ok'>✓ $modelo.php existe</div>";
         try {
@@ -90,10 +90,10 @@ foreach ($vistas as $vista) {
 
 // Test 5: Verificar base de datos
 echo "<h2>5. Verificando Base de Datos</h2>";
-if (file_exists(__DIR__ . '/config/database.php')) {
+if (file_exists(__DIR__ . '/../config/database.php')) {
     echo "<div class='ok'>✓ Archivo database.php existe</div>";
     try {
-        require_once __DIR__ . '/config/database.php';
+        require_once __DIR__ . '/../config/database.php';
         $database = Database::getInstance();
         $conn = $database->getConnection();
         echo "<div class='ok'>✓ Conexión a base de datos exitosa</div>";

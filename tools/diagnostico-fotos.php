@@ -3,13 +3,13 @@
  * Script de diagnóstico para problemas de fotos
  */
 
-require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/../config/config.php';
 
 echo "<h2>Diagnóstico del Sistema de Fotos</h2>";
 echo "<hr>";
 
 // 1. Verificar directorio /uploads
-$uploadsDir = __DIR__ . '/uploads';
+$uploadsDir = __DIR__ . '/../uploads';
 echo "<h3>1. Directorio /uploads</h3>";
 if (is_dir($uploadsDir)) {
     echo "✅ Directorio existe: <code>$uploadsDir</code><br>";
@@ -45,7 +45,7 @@ foreach ($subdirs as $subdir) {
 
 // 3. Verificar fotos en la BD
 echo "<h3>3. Fotos en Base de Datos</h3>";
-require_once __DIR__ . '/models/Foto.php';
+require_once __DIR__ . '/../models/Foto.php';
 
 $fotoModel = new Foto();
 
