@@ -2,6 +2,7 @@
 #logs/*.log
 
 # Archivos de configuración local
+/config/env.php
 #config/database.php
 
 # Uploads
