@@ -1,52 +1,111 @@
 <?php
-/* Asignatura: Arquitectura Cliente-Servidor | Comentador: james | Guía: 5 | Punto de la guía: Actividad 1, 2 y 3 */
+header("Content-Type: text/html; charset=UTF-8");
 
-/**
- * Actividad 1: Definición de Interfaces y Clases Serializables
- * Esta clase debe ser idéntica en cliente y servidor para el Marshaling.
- */
+echo "<h1>📦 Serialización de Objetos — GoApple POS (Stub & Marshal)</h1>";
+echo "<p>Demostración de serialización/deserialización de objetos con datos reales de la BD.</p>";
+
+require_once __DIR__ . '/../../../../../config/database.php';
+
 class Producto {
     public $id;
-    public $nombre;
-    public $precio;
+    public $modelo;
+    public $capacidad;
+    public $color;
+    public $imei;
+    public $precioVenta;
+    public $estado;
 
-    public function __construct($id, $nombre, $precio) {
+    public function __construct($id, $modelo, $capacidad, $color, $imei, $precioVenta, $estado) {
         $this->id = $id;
-        $this->nombre = $nombre;
-        $this->precio = $precio;
+        $this->modelo = $modelo;
+        $this->capacidad = $capacidad;
+        $this->color = $color;
+        $this->imei = $imei;
+        $this->precioVenta = $precioVenta;
+        $this->estado = $estado;
     }
 }
 
-/**
- * Actividad 2: Implementación del Stub (Marshaling de Objetos)
- * Envío de objetos transformados en bytes.
- */
 class ClientStub {
     public function enviarObjeto(Producto $producto) {
-        // Convierte un objeto vivo en bytes
         $payloadMarshaled = serialize($producto);
-        echo "Objeto Serializado (Stub): " . $payloadMarshaled . "\n";
-        // Aquí iría el socket_write($socket, $payloadMarshaled);
+        echo "<p><strong>Objeto Serializado (Stub):</strong></p>";
+        echo "<pre style='background:#222; color:#0f0; padding:10px;'>" . htmlspecialchars($payloadMarshaled) . "</pre>";
+        echo "<p>🔹 <strong>Formato:</strong> String serializado de PHP (O:8:\"Producto\":7:{...})</p>";
+        echo "<p>🔹 <strong>Tamaño:</strong> " . strlen($payloadMarshaled) . " bytes</p>";
+        return $payloadMarshaled;
     }
 }
 
-/**
- * Actividad 3: Reconstrucción en el Servidor (Unmarshaling)
- */
 class ServerUnmarshaling {
     public function recibirObjeto($payloadBytes) {
-        // Vuelve a convertir los bytes en un objeto vivo
+        echo "<p><strong>Objeto Reconstruido en Servidor (Unmarshal):</strong></p>";
         $producto = unserialize($payloadBytes);
-        echo "Objeto Reconstruido en Servidor: " . var_export($producto, true) . "\n";
+        if ($producto instanceof Producto) {
+            echo "<table border='1' cellpadding='8' style='border-collapse:collapse;'>";
+            echo "<tr><th>Campo</th><th>Valor</th></tr>";
+            echo "<tr><td>ID</td><td>{$producto->id}</td></tr>";
+            echo "<tr><td>Modelo</td><td>" . htmlspecialchars($producto->modelo) . "</td></tr>";
+            echo "<tr><td>Capacidad</td><td>" . htmlspecialchars($producto->capacidad) . "</td></tr>";
+            echo "<tr><td>Color</td><td>" . htmlspecialchars($producto->color) . "</td></tr>";
+            echo "<tr><td>IMEI</td><td>" . htmlspecialchars($producto->imei) . "</td></tr>";
+            echo "<tr><td>Precio</td><td>$" . number_format($producto->precioVenta, 0, ',', '.') . "</td></tr>";
+            echo "<tr><td>Estado</td><td>{$producto->estado}</td></tr>";
+            echo "</table>";
+        }
     }
 }
 
-// Emulación del flujo:
-$stub = new ClientStub();
-$prod = new Producto(1, "GoApple Pro", 999.99);
-$stub->enviarObjeto($prod);
+echo "<h2>📋 Datos desde la BD Real</h2>";
 
-$bytesSimulados = serialize($prod);
-$server = new ServerUnmarshaling();
-$server->recibirObjeto($bytesSimulados);
+try {
+    $db = Database::getInstance()->getConnection();
+    $stmt = $db->query("SELECT id, modelo, capacidad, color, imei, precio_venta, estado FROM iphones ORDER BY id DESC LIMIT 5");
+    $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    if ($productos) {
+        echo "<p>Selecciona un producto para serializar:</p>";
+        echo "<table border='1' cellpadding='8' style='border-collapse:collapse;'>";
+        echo "<tr><th>ID</th><th>Modelo</th><th>Serializar</th></tr>";
+        foreach ($productos as $p) {
+            echo "<tr>";
+            echo "<td>{$p['id']}</td>";
+            echo "<td>" . htmlspecialchars($p['modelo']) . "</td>";
+            echo "<td><a href='?id={$p['id']}'>🔗 Serializar</a></td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    }
+
+    $id = $_GET['id'] ?? null;
+    if ($id) {
+        $stmt = $db->prepare("SELECT * FROM iphones WHERE id = ?");
+        $stmt->execute([$id]);
+        $prodData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($prodData) {
+            $prod = new Producto(
+                $prodData['id'],
+                $prodData['modelo'],
+                $prodData['capacidad'],
+                $prodData['color'],
+                $prodData['imei'],
+                (float)$prodData['precio_venta'],
+                $prodData['estado']
+            );
+
+            echo "<hr><h2>🔄 Flujo Completo de Serialización</h2>";
+
+            $stub = new ClientStub();
+            $bytes = $stub->enviarObjeto($prod);
+
+            $server = new ServerUnmarshaling();
+            $server->recibirObjeto($bytes);
+
+            echo "<p style='color:green;margin-top:15px;'>✅ Marshaling/Unmarshaling completado con datos reales.</p>";
+        }
+    }
+
+} catch (Exception $e) {
+    echo "<p style='color:red;'>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
+}
