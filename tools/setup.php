@@ -8,23 +8,10 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Conexión directa sin la clase Database
-$host = "shared20.hostgator.co";
-$db_name = "giorgiju_goapple_pos";
-$username = "giorgiju";
-$password = "Giorgi2006*";
-$charset = "utf8mb4";
+require_once __DIR__ . '/../config/database.php';
 
 try {
-    $conn = new PDO(
-        "mysql:host=$host;dbname=$db_name;charset=$charset",
-        $username,
-        $password,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ]
-    );
+    $conn = Database::getInstance()->getConnection();
     
     echo "<!DOCTYPE html>
 <html>
@@ -48,7 +35,7 @@ try {
 </head>
 <body>
     <h1>🔧 Setup de Base de Datos - GOapple POS</h1>
-    <div class='info box'>Conectado a: <strong>$host / $db_name</strong></div>";
+    <div class='info box'>Conectado correctamente</div>";
     
     // Paso 1: Deshabilitar restricciones
     echo "<h2>1. Preparando base de datos</h2>";
@@ -139,7 +126,7 @@ try {
         </ol>
     </div>";
     
-} catch (PDOException $e) {
+} catch (Exception $e) {
     echo "<!DOCTYPE html>
 <html>
 <head>
@@ -160,9 +147,7 @@ try {
         <hr>
         <h3>Verifica:</h3>
         <ul>
-            <li>Host: $host</li>
-            <li>Base de datos: $db_name</li>
-            <li>Usuario: $username</li>
+            <li>Archivo: config/env.php</li>
             <li>Archivo: config/database.php</li>
         </ul>
         <p><a href='login.php'>Volver al login</a></p>
