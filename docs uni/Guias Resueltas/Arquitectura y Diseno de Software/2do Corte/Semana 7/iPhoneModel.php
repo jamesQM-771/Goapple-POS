@@ -5,7 +5,7 @@
  * Gestión de inventario de iPhones
  */
 
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../../../../../config/database.php';
 
 class iPhone {
     private $conn;

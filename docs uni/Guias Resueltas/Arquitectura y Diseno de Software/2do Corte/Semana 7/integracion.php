@@ -5,14 +5,14 @@
  * Guía Práctica N° 7
  */
 
-require_once __DIR__ . '/../../config/config.php';
-require_once __DIR__ . '/../../models/iPhone.php';
+require_once __DIR__ . '/../../../../../config/config.php';
+require_once __DIR__ . '/../../../../../models/iPhone.php';
 
 // Título de la página
 $titulo_pagina = "Integración Web Services - Semana 7";
 
 // Incluir header
-include __DIR__ . '/../layouts/header.php';
+include __DIR__ . '/../../../../../views/layouts/header.php';
 ?>
 
 <div class="container-fluid">
@@ -194,5 +194,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php
 // Incluir footer
-include __DIR__ . '/../layouts/footer.php';
+include __DIR__ . '/../../../../../views/layouts/footer.php';
 ?>

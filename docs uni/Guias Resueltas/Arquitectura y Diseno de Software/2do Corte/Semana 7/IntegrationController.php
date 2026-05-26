@@ -6,8 +6,8 @@
  * Guía Práctica N° 7
  */
 
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../services/ServiceConnector.php';
+require_once __DIR__ . '/../../../../../config/config.php';
+require_once __DIR__ . '/../../../../../services/ServiceConnector.php';
 
 class IntegrationController {
     
