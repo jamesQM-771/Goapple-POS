@@ -1,0 +1,22 @@
+{
+  "environment": "local",
+  "node": "localhost",
+  "base_url": "http://localhost/goapple",
+  "services": [
+    {
+      "name": "GoAppleSoapService",
+      "version": "1.0.0",
+      "wsdl": "http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%209/soap_server.php?wsdl",
+      "endpoint": "http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%209/soap_server.php",
+      "protocol": "SOAP/HTTP",
+      "operations": ["ConsultarProducto"]
+    },
+    {
+      "name": "GoAppleXmlProtocol",
+      "version": "1.0.0",
+      "endpoint": "http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%208/servidor.php",
+      "protocol": "XML/HTTP",
+      "operations": ["consultar_usuario", "consultar_producto", "listar_productos", "consultar_cliente"]
+    }
+  ]
+}
