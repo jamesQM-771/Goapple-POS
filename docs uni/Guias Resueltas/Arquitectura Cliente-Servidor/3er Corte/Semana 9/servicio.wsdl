@@ -19,15 +19,9 @@
       <xsd:element name="ConsultarProductoResponse">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="id" type="xsd:string"/>
-            <xsd:element name="modelo" type="xsd:string"/>
-            <xsd:element name="capacidad" type="xsd:string"/>
-            <xsd:element name="color" type="xsd:string"/>
-            <xsd:element name="imei" type="xsd:string"/>
+            <xsd:element name="nombre" type="xsd:string"/>
             <xsd:element name="precio" type="xsd:float"/>
             <xsd:element name="stock" type="xsd:int"/>
-            <xsd:element name="condicion" type="xsd:string"/>
-            <xsd:element name="estado" type="xsd:string"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>

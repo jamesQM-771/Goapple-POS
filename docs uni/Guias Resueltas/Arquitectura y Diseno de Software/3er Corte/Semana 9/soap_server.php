@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../../../../../config/database.php';
+
 function soapFaultXml(string $code, string $message): string
 {
     return <<<XML
@@ -24,9 +26,15 @@ function soapSuccessXml(array $data): string
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://goapple.local/wsdl">
   <soap:Body>
     <tns:ConsultarProductoResponse>
-      <nombre>{$data['nombre']}</nombre>
+      <id>{$data['id']}</id>
+      <modelo>{$data['modelo']}</modelo>
+      <capacidad>{$data['capacidad']}</capacidad>
+      <color>{$data['color']}</color>
+      <imei>{$data['imei']}</imei>
       <precio>{$data['precio']}</precio>
       <stock>{$data['stock']}</stock>
+      <condicion>{$data['condicion']}</condicion>
+      <estado>{$data['estado']}</estado>
     </tns:ConsultarProductoResponse>
   </soap:Body>
 </soap:Envelope>
@@ -48,20 +56,41 @@ function handleSoapRequest(string $raw): string
     $xp = new DOMXPath($doc);
     $xp->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
     $sku = trim((string) $xp->evaluate('string(//sku)'));
+
     if ($sku === '') {
         return soapFaultXml('Client', 'Parametro sku requerido.');
     }
 
-    $fakeDb = [
-        'APL-001' => ['nombre' => 'iPhone 16 Pro', 'precio' => '1200.00', 'stock' => '14'],
-        'APL-002' => ['nombre' => 'iPhone 15', 'precio' => '900.00', 'stock' => '22'],
-    ];
+    try {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("
+            SELECT i.*, p.nombre AS proveedor_nombre
+            FROM iphones i
+            LEFT JOIN proveedores p ON i.proveedor_id = p.id
+            WHERE i.imei = ? OR i.id = ?
+            LIMIT 1
+        ");
+        $stmt->execute([$sku, $sku]);
+        $producto = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!isset($fakeDb[$sku])) {
-        return soapFaultXml('Server', 'Producto no encontrado.');
+        if (!$producto) {
+            return soapFaultXml('Server', 'Producto no encontrado con SKU: ' . $sku);
+        }
+
+        return soapSuccessXml([
+            'id' => (string)$producto['id'],
+            'modelo' => htmlspecialchars($producto['modelo']),
+            'capacidad' => htmlspecialchars($producto['capacidad']),
+            'color' => htmlspecialchars($producto['color']),
+            'imei' => htmlspecialchars($producto['imei']),
+            'precio' => number_format((float)$producto['precio_venta'], 2, '.', ''),
+            'stock' => ($producto['estado'] === 'disponible') ? '1' : '0',
+            'condicion' => $producto['condicion'],
+            'estado' => $producto['estado'],
+        ]);
+    } catch (Exception $e) {
+        return soapFaultXml('Server', 'Error interno al consultar producto.');
     }
-
-    return soapSuccessXml($fakeDb[$sku]);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {

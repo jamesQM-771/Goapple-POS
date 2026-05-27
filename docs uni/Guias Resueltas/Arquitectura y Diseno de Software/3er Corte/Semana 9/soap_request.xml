@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://goapple.local/wsdl">
+  <soap:Header/>
+  <soap:Body>
+    <tns:ConsultarProductoRequest>
+      <sku>1</sku>
+    </tns:ConsultarProductoRequest>
+  </soap:Body>
+</soap:Envelope>

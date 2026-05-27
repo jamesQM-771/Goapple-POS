@@ -289,7 +289,7 @@ echo "Consumo SOAP completado. Revise soap_request.xml y soap_response.xml\n";
 
 ### 4.1 Validación del WSDL
 
-Acceder a `http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%209/soap_server.php?wsdl` debe retornar el contrato WSDL completo.
+Acceder a `http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20y%20Diseno%20de%20Software/3er%20Corte/Semana%209/soap_server.php?wsdl` debe retornar el contrato WSDL completo.
 
 ### 4.2 Ejemplo de Petición SOAP
 
@@ -395,6 +395,14 @@ Esta implementación demuestra las capacidades de los servicios web SOAP:
 4. **Descubrimiento:** UDDI facilita la localización y consumo de servicios web.
 
 La guía cumple con todos los requerimientos, implementando un servicio web SOAP completo con contrato WSDL y simulación de registro UDDI.
+
+---
+
+## 6. Integración con Base de Datos Real
+
+El servidor SOAP se integró con la base de datos real **goapple_pos**. La operación `ConsultarProducto` ahora consulta la tabla `iphones` usando `Database::getInstance()` en lugar del arreglo simulado anterior.
+
+Campos retornados: `id`, `modelo`, `capacidad`, `color`, `imei`, `precio`, `stock`, `condicion`, `estado`.
 
 ---
 

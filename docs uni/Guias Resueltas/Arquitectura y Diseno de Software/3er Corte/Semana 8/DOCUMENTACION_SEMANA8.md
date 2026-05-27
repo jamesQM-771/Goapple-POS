@@ -508,6 +508,21 @@ La guía cumple con todos los requerimientos, implementando un sistema cliente-s
 
 ---
 
+## 6. Integración con Base de Datos Real
+
+El servidor XML se integró con la base de datos real **goapple_pos** del sistema GoApple POS. Las operaciones ahora consultan datos reales:
+
+| Operación | Tabla | Descripción |
+|-----------|-------|-------------|
+| `consultar_usuario` | `usuarios` | Busca por ID o email |
+| `consultar_producto` | `iphones` | Busca por ID o IMEI |
+| `listar_productos` | `iphones` | Lista los últimos 50 productos |
+| `consultar_cliente` | `clientes` | Busca por ID o cédula |
+
+La conexión se realiza mediante `Database::getInstance()` (patrón Singleton) con PDO.
+
+---
+
 ## 7. Referencias
 
 - Especificación XML 1.0 (W3C)

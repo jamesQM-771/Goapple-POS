@@ -2,25 +2,6 @@
 
 declare(strict_types=1);
 
-header("Content-Type: text/html; charset=UTF-8");
-
-$sku = $_GET['sku'] ?? '';
-
-if (!$sku) {
-    ?>
-    <h2>Cliente SOAP - GoApple POS (Arq. Cliente-Servidor - Semana 9)</h2>
-    <p>Consume el servicio SOAP de consulta de productos desde la base de datos real.</p>
-    <form method="get">
-        <label>SKU (ID o IMEI del iPhone):</label>
-        <input type="text" name="sku" value="1" required>
-        <button type="submit">Consultar</button>
-    </form>
-    <hr>
-    <p><a href="?wsdl" target="_blank">Ver WSDL</a> | <a href="soap_server.php" target="_blank">Ver estado del servidor SOAP</a></p>
-    <?php
-    exit;
-}
-
 function buildRequest(string $sku): string
 {
     return <<<XML
@@ -36,9 +17,8 @@ function buildRequest(string $sku): string
 XML;
 }
 
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-$endpoint = "http://{$host}/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%209/soap_server.php";
-$soapXml = buildRequest($sku);
+$endpoint = 'http://localhost/goapple/docs%20uni/Guias%20Resueltas/Arquitectura%20Cliente-Servidor/3er%20Corte/Semana%209/soap_server.php';
+$soapXml = buildRequest('APL-001');
 
 $opts = [
     'http' => [
@@ -52,40 +32,11 @@ $opts = [
 $ctx = stream_context_create($opts);
 $response = @file_get_contents($endpoint, false, $ctx);
 
-echo "<h2>Cliente SOAP - Resultado</h2>";
-
 if ($response === false) {
-    echo "<p style='color:red;'>No fue posible consumir el endpoint SOAP.</p>";
-    echo "<p><a href='?'>Volver</a></p>";
-    exit;
+    echo "No fue posible consumir el endpoint SOAP.\n";
+    exit(1);
 }
-
-echo "<h3>XML de Petición:</h3>";
-echo "<pre style='background:#222; color:#0f0; padding:10px; overflow:auto;'>" . htmlspecialchars($soapXml) . "</pre>";
-
-echo "<h3>XML de Respuesta:</h3>";
-echo "<pre style='background:#222; color:#0cf; padding:10px; overflow:auto;'>" . htmlspecialchars($response) . "</pre>";
-
-libxml_use_internal_errors(true);
-$doc = new DOMDocument();
-if ($doc->loadXML($response)) {
-    $xp = new DOMXPath($doc);
-    $xp->registerNamespace('soap', 'http://schemas.xmlsoap.org/soap/envelope/');
-    $xp->registerNamespace('tns', 'http://goapple.local/wsdl');
-
-    echo "<h3>Datos del Producto:</h3>";
-    echo "<table border='1' cellpadding='8' style='border-collapse:collapse;'>";
-    echo "<tr><th>Campo</th><th>Valor</th></tr>";
-    foreach (['id', 'modelo', 'capacidad', 'color', 'imei', 'precio', 'stock', 'condicion', 'estado'] as $campo) {
-        $valor = $xp->evaluate("string(//tns:$campo)");
-        echo "<tr><td>$campo</td><td>" . htmlspecialchars($valor) . "</td></tr>";
-    }
-    echo "</table>";
-} else {
-    echo "<p style='color:red;'>No se pudo parsear la respuesta SOAP.</p>";
-}
-
-echo "<p><a href='?'>Nueva consulta</a></p>";
 
 file_put_contents(__DIR__ . DIRECTORY_SEPARATOR . 'soap_request.xml', $soapXml);
 file_put_contents(__DIR__ . DIRECTORY_SEPARATOR . 'soap_response.xml', $response);
+echo "Consumo SOAP completado. Revise soap_request.xml y soap_response.xml\n";

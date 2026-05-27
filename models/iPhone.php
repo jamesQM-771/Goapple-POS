@@ -1,4 +1,5 @@
 <?php
+/* Asignatura: Arquitectura y Diseño de Software | Autor: James y Giorgi Julian Ordoñez | Guía: 7 */
 /**
  * Modelo iPhone
  * Gestión de inventario de iPhones
@@ -284,5 +285,44 @@ class iPhone {
         $stmt->bindParam(':minimo', $minimo, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+    /**
+     * Sincronización masiva desde servicio externo
+     * @param array $productos Arreglo de datos mapeados
+     * @return array Resumen de la operación
+     */
+    public function upsertFromService($productos) {
+        $stats = ['insertados' => 0, 'actualizados' => 0, 'errores' => 0];
+        
+        try {
+            $this->conn->beginTransaction();
+
+            foreach ($productos as $datos) {
+                // En una integración real, buscaríamos por una llave lógica única del proveedor
+                // Para este ejercicio usamos el IMEI generado o el modelo
+                $existente = $this->obtenerPorIMEI($datos['imei']);
+
+                if ($existente) {
+                    if ($this->actualizar($existente['id'], $datos)) {
+                        $stats['actualizados']++;
+                    } else {
+                        $stats['errores']++;
+                    }
+                } else {
+                    if ($this->crear($datos)) {
+                        $stats['insertados']++;
+                    } else {
+                        $stats['errores']++;
+                    }
+                }
+            }
+
+            $this->conn->commit();
+            return ['success' => true, 'stats' => $stats];
+
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
     }
 }
